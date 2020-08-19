@@ -1,24 +1,24 @@
 package Plagiate.Threshold;
 
 import Plagiate.Utils.Histohram;
-import Plagiate.Entity.Image;
+import Plagiate.Entity.ColorImage;
 
 public abstract class AbstactThreshold {
 
 
-    public void threshold(Image image){
-        int histo[] = Histohram.getHistogram(image);
+    public void threshold(ColorImage colorImage){
+        int histo[] = Histohram.getHistogram(colorImage);
         int level = getThresholdLevel(histo);
-        threshold(level, image);
+        threshold(level, colorImage);
     }
     protected abstract int getThresholdLevel(int[] histogram);
 
-    private void threshold(int level, Image image) {
-        for (int i = 0; i < image.width * image.height; ++i) {
-            if ((image.pixels[i] & 255) <= level) {
-                image.pixels[i] = 0;
+    private void threshold(int level, ColorImage colorImage) {
+        for (int i = 0; i < colorImage.width * colorImage.height; ++i) {
+            if ((colorImage.pixels[i] & 255) <= level) {
+                colorImage.pixels[i] = 0;
             } else {
-                image.pixels[i] = -1;
+                colorImage.pixels[i] = -1;
             }
         }
     }

@@ -1,6 +1,6 @@
 package Plagiate;
 
-import Plagiate.Entity.Image;
+import Plagiate.Entity.ColorImage;
 import Plagiate.Threshold.*;
 
 public class ImgThresholdProcessor {
@@ -9,20 +9,20 @@ public class ImgThresholdProcessor {
     int[] R;
     int[] G;
     int[] B;
-    private Image red;
-    private Image green;
-    private Image blue;
+    private ColorImage red;
+    private ColorImage green;
+    private ColorImage blue;
 
-    public void threshold(Image image, int type) {
+    public void threshold(ColorImage colorImage, int type) {
         AbstactThreshold thresholder = getThresholder(type);
 
-        initRGB(image);
+        initRGB(colorImage);
 
         thresholder.threshold(red);
         thresholder.threshold(green);
         thresholder.threshold(blue);
 
-        saveImage(image);
+        saveImage(colorImage);
     }
 
     private AbstactThreshold getThresholder(int type) {
@@ -49,16 +49,16 @@ public class ImgThresholdProcessor {
         return result;
     }
 
-    private void initRGB(Image image) {
-        R = new int[image.width * image.height];
-        G = new int[image.width * image.height];
-        B = new int[image.width * image.height];
+    private void initRGB(ColorImage colorImage) {
+        R = new int[colorImage.width * colorImage.height];
+        G = new int[colorImage.width * colorImage.height];
+        B = new int[colorImage.width * colorImage.height];
 
-        image.getRGB(R, G, B);
+        colorImage.getRGB(R, G, B);
 
-        red = new Image(image.getPixels(), image.getWidth(), image.getHeight());
-        green = new Image(image.getPixels(), image.getWidth(), image.getHeight());
-        blue = new Image(image.getPixels(), image.getWidth(), image.getHeight());
+        red = new ColorImage(colorImage.getPixels(), colorImage.getWidth(), colorImage.getHeight());
+        green = new ColorImage(colorImage.getPixels(), colorImage.getWidth(), colorImage.getHeight());
+        blue = new ColorImage(colorImage.getPixels(), colorImage.getWidth(), colorImage.getHeight());
 
         red.setPixels(R);
         green.setPixels(G);
@@ -67,11 +67,11 @@ public class ImgThresholdProcessor {
     }
 
 
-    private void saveImage(Image image) {
+    private void saveImage(ColorImage colorImage) {
         R = red.getPixels();
         G = green.getPixels();
         B = blue.getPixels();
 
-        image.setRGB(R, G, B);
+        colorImage.setRGB(R, G, B);
     }
 }

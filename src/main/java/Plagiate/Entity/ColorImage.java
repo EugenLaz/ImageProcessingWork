@@ -1,12 +1,13 @@
 package Plagiate.Entity;
 
-public class Image {
-    private static double rWeight = 0.3333333333333333D;
-    private static double gWeight = 0.3333333333333333D;
-    private static double bWeight = 0.3333333333333333D;
+public class ColorImage{
     public  int bgColor = -1;
 
-    public Image(int[] pixels, int width, int height) {
+    public ColorImage(int width, int height) {
+        this(new int[width*height],width,height);
+    }
+
+    public ColorImage(int[] pixels, int width, int height) {
         this.pixels = pixels;
         this.width = width;
         this.height = height;
@@ -67,6 +68,12 @@ public class Image {
             B[i] = b;
         }
 
+    }
+    public int getPixel(int x, int y){
+        return pixels[x*y];
+    }
+    public void putPixel(int x, int y, int color){
+        pixels[x*y] = color;
     }
 
 }
