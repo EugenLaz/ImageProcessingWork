@@ -1,5 +1,7 @@
 package Plagiate.Entity;
 
+import ij.process.FloatProcessor;
+
 import java.awt.*;
 import java.awt.image.ColorModel;
 import java.awt.image.ImageObserver;
@@ -98,5 +100,20 @@ public class BinaryImage {
 
     public static void setHeight(int height) {
         BinaryImage.height = height;
+    }
+
+    public FloatImage toFloat() {
+        int size = this.width * this.height;
+        FloatImage fp = new FloatImage(this.width, this.height, new float[size]);
+
+        float[] fPixels = (float[])((float[])fp.getPixels());
+
+        for(int i = 0; i < size; ++i) {
+            fPixels[i] = (float)(this.pixels[i] & 255);
+        }
+
+        fp.setMin(this.min);
+        fp.setMax(this.min);
+        return fp;
     }
 }

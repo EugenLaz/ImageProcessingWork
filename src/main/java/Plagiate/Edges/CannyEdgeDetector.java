@@ -4,7 +4,7 @@ import Plagiate.Entity.BinaryImage;
 import Plagiate.Entity.ColorImage;
 import Plagiate.Entity.FloatImage;
 import Plagiate.Utils.Convolver;
-
+import ij.process.FloatProcessor;
 
 
 import java.awt.*;
@@ -16,8 +16,8 @@ public class CannyEdgeDetector {
 
     public static class Parameters {
         public double gSigma = 2.0D;
-        public double hiThr = 20.0D;
-        public double loThr = 5.0D;
+        public double hiThr = 10.D;
+        public double loThr = 5.D;
         public boolean normGradMag = true;
 
         public Parameters() {
@@ -282,6 +282,25 @@ public class CannyEdgeDetector {
         }
 
         return pointList;
+    }
+
+    public FloatImage getEdgeMagnitude() {
+        return this.Emag;
+    }
+
+    public FloatImage getEdgeOrientation() {
+        FloatImage E_theta = new FloatImage(this.M, this.N);
+
+        for(int u = 0; u < this.M; ++u) {
+            for(int v = 0; v < this.N; ++v) {
+                double ex = (double)this.Ex.getf(u, v);
+                double ey = (double)this.Ey.getf(u, v);
+                float theta = (float)Math.atan2(ey, ex);
+                E_theta.setf(u, v, theta);
+            }
+        }
+
+        return E_theta;
     }
 
 

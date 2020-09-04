@@ -1,5 +1,7 @@
 package Plagiate.Entity;
 
+import ij.process.ByteProcessor;
+
 public class ColorImage{
     public  int bgColor = -1;
 
@@ -75,5 +77,27 @@ public class ColorImage{
     public void putPixel(int x, int y, int color){
         pixels[x*y] = color;
     }
+    public byte[] getChannel(int channel) {
+        BinaryImage bp = this.getChannel(channel, null);
+        return (byte[])((byte[])bp.getPixels());
+    }
 
+    public BinaryImage getChannel(int channel, BinaryImage bp) {
+        int size = this.width * this.height;
+        if (bp == null || bp.getWidth() != this.width || bp.getHeight() != this.height) {
+            bp = new BinaryImage(this.width, this.height);
+        }
+
+        byte[] bPixels = (byte[])((byte[])bp.getPixels());
+        int shift = 16 - 8 * (channel - 1);
+        if (channel == 4) {
+            shift = 24;
+        }
+
+        for(int i = 0; i < size; ++i) {
+            bPixels[i] = (byte)(this.pixels[i] >> shift);
+        }
+
+        return bp;
+    }
 }

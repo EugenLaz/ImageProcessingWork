@@ -1,7 +1,7 @@
 package Plagiate.Entity;
 
+import Plagiate.Utils.Convolver;
 import ij.IJ;
-import ij.plugin.filter.Convolver;
 import ij.process.*;
 
 import java.awt.*;
@@ -50,7 +50,7 @@ public class FloatImage {
         }
     }
 
-    public Object getPixels() {
+    public float[] getPixels() {
         return this.pixels;
     }
 
@@ -246,4 +246,30 @@ public class FloatImage {
 
         System.arraycopy(this.pixels, 0, this.snapshotPixels, 0, this.width * this.height);
     }
+
+    public void setPixels(float[] pixels) {
+        this.pixels = pixels;
+    }
+
+    public int[] getIntArr(){
+        int[] result = new int[height*width];
+        for(int i =0;i<pixels.length;i++){
+            result[i] = (int)pixels[i];
+        }
+        return result;
+    }
+
+    public void setMin(float min) {
+        this.min = min;
+    }
+
+    public void setMax(float max) {
+        this.max = max;
+    }
+
+    public void convolve(float[] kernel, int kernelWidth, int kernelHeight) {
+        this.snapshot();
+        (new Convolver()).convolveFloat(this, kernel, kernelWidth, kernelHeight);
+    }
+
 }
